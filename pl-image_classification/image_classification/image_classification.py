@@ -52,7 +52,7 @@ class Image_classification(ChrisApp):
         """
         Define the code to be run by this plugin app.
         """
-
+        print("Hello docker world!")
 
 
 # ENTRYPOINT
