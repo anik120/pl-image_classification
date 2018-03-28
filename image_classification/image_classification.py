@@ -56,6 +56,10 @@ class Image_classification(ChrisApp):
         """
         Define the code to be run by this plugin app.
         """
+
+        # Disabling architechture related warnings from Tensorflow
+        os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
         batch_size = 100
         number_of_dimensions = 784
         number_of_classes = 10
@@ -86,7 +90,7 @@ class Image_classification(ChrisApp):
 
         y_ = tf.matmul(x,w) + b
 
-        cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, 
+        cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=y, 
                                                                             logits=y_))
 
         train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
@@ -105,7 +109,7 @@ class Image_classification(ChrisApp):
 
         file.write("\nDone training model\n")
         file.write("Testing model...\n")
-        correct_prediction = tf.equal(tf.argmax(y_, 1), tf.arg_max(y, 1))
+        correct_prediction = tf.equal(tf.argmax(y_, 1), tf.argmax(y, 1))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
         line = "Accuracy of prediction by trained model: " +  str(accuracy.eval(feed_dict={x:test_images, y:test_labels}) )
         file.write(line)
