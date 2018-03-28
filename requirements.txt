@@ -1,2 +1,4 @@
 chrisapp
 tensorflow
+sklearn
+scipy
